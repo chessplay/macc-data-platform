@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.dc.privilege.mapper.ModuleMapper">
+    <resultMap id="BaseResultMap" type="com.ruijie.cloud.dc.privilege.entity.business.Module" >
+    	<id column="module_id" property="moduleId" jdbcType="VARCHAR" />
+    	<result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+    	<result column="type" property="type" jdbcType="VARCHAR" />
+    	<result column="description" property="description" jdbcType="VARCHAR" />
+    </resultMap>
+    
+	<sql id="BASE_SQL">
+		module_id, module_name, type, description
+	</sql>
+	
+    <select id="selectAll" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_module 
+        where `system` = #{system}
+    </select>
+
+    <select id="selectByModuleId" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_module 
+        where `system` = #{system}
+        and module_id = #{moduleId}
+    </select>
+
+    <insert id="insert" parameterType="map">
+       insert into privilege_module(`system`, module_id, module_name, type, description) 
+       values (#{system}, #{moduleId}, #{moduleName}, #{type}, #{description})
+    </insert>
+    
+    <update id="update" parameterType="map">
+    	update privilege_module
+    	set module_name = #{moduleName},
+    		description = #{description}
+    	where `system` = #{system}
+        and module_id = #{moduleId}
+    </update>
+    
+    <delete id="delete" parameterType="map">
+    	delete from privilege_module
+        where `system` = #{system}
+        and module_id = #{moduleId}
+    </delete>
+</mapper>

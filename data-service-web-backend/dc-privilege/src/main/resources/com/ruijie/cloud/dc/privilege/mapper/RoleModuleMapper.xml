@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.dc.privilege.mapper.RoleModuleMapper">
+    <resultMap id="BaseResultMap" type="com.ruijie.cloud.dc.privilege.entity.business.RoleModule" >
+    	<id column="id" property="id" jdbcType="INTEGER" />
+    	<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    	<result column="module_id" property="moduleId" jdbcType="VARCHAR" />
+    	<result column="privilege" property="privilege" jdbcType="VARCHAR" />
+    </resultMap>
+    
+	<sql id="BASE_SQL">
+		id, role_id, module_id, privilege
+	</sql>
+	
+    <select id="selectByRoleId" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_role_module 
+        where `system` = #{system}
+       	 	and role_id = #{roleId}
+    </select>
+
+    <select id="selectByModuleId" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_role_module 
+        where `system` = #{system}
+        	and module_id = #{moduleId}
+    </select>
+    
+    <select id="selectByRoleAndModule" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_role_module 
+        where `system` = #{system}
+        	and role_id = #{roleId}
+        	and module_id = #{moduleId}
+    </select>
+    
+    <update id="updatePrivilege" parameterType="map">
+    	update privilege_role_module 
+    	set privilege = #{privilege}
+    	where `system` = #{system}
+        	and id = #{id}
+    </update>
+    
+    <insert id="insert" parameterType="map">
+       insert into privilege_role_module 
+       (	
+       		`system`, 
+       		role_id, 
+       		module_id, 
+       		privilege
+       	) values (
+       		#{system}, 
+       		#{roleId}, 
+       		#{moduleId}, 
+       		#{privilege}
+       	)
+    </insert>
+    
+    <delete id="delete" parameterType="map">
+    	delete from privilege_role_module
+        where `system` = #{system}
+        and id in
+        	<foreach collection="ids" open="(" close=")" separator="," item="id">
+        		#{id}
+        	</foreach>
+    </delete>
+    
+    <delete id="deleteByRoleAndModule" parameterType="map">
+    	delete from privilege_role_module
+        where `system` = #{system}
+        	and role_id = #{roleId}
+        	and module_id = #{moduleId}
+    </delete>
+    
+</mapper>

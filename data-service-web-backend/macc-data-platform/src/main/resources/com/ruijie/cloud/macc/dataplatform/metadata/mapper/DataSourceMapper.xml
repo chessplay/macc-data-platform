@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.macc.dataplatform.metadata.mapper.DataSourceMapper">
+	<resultMap id="BaseResultMap" type="com.ruijie.cloud.macc.dataplatform.metadata.entity.po.DataSourcePO">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="datasource_key" property="dataSourceKey" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="db_type" property="dbType" jdbcType="VARCHAR" />
+		<result column="db_properties_json" property="dbPropertiesJson" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="last_updater" property="lastUpdater" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="description" property="description" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="BASE_COLUMNS">
+		id, datasource_key, name, db_type, db_properties_json,
+		creator, create_time, last_updater, update_time, description
+	</sql>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+			<include refid="BASE_COLUMNS"/>
+		from mdp_datasource
+		<where>
+			<if test="keyword != null">
+				and (datasource_key like concat('%',#{keyword},'%') or name like concat('%',#{keyword},'%'))
+			</if>
+			<if test="dbType != null">
+				and db_type = #{dbType}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectByDataSourceKey" parameterType="string" resultMap="BaseResultMap">
+		select
+			<include refid="BASE_COLUMNS"/>
+		from mdp_datasource
+		where datasource_key = #{dataSourceKey}
+	</select>
+
+	<select id="selectById" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="BASE_COLUMNS"/>
+		from mdp_datasource
+		where id = #{id}
+	</select>
+
+	<insert id="insert" parameterType="map">
+		insert into mdp_datasource (
+			name,
+			datasource_key, 
+			db_type, 
+			db_properties_json,
+			description
+		) values (
+			#{name},
+			#{dataSourceKey}, 
+			#{dbType}, 
+			#{dbPropertiesJson},
+			#{description}
+		)
+	</insert>
+
+	<update id="update" parameterType="map">
+		update mdp_datasource
+		set name = #{name}, 
+			db_properties_json = #{dbPropertiesJson}
+		where datasource_key = #{dataSourceKey}
+	</update>
+	
+	<delete id="deleteByDataSourceKey">
+		delete from mdp_datasource
+		where datasource_key = #{dataSourceKey}
+	</delete>
+</mapper>

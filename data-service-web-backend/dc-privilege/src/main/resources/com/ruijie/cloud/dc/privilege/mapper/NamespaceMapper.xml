@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.dc.privilege.mapper.NamespaceMapper">
+    <resultMap id="BaseResultMap" type="com.ruijie.cloud.dc.privilege.entity.business.Namespace" >
+    	<id column="id" property="id" jdbcType="INTEGER" />
+    	<result column="name" property="name" jdbcType="VARCHAR" />
+    	<result column="namespace" property="namespace" jdbcType="VARCHAR" />
+    	<result column="description" property="description" jdbcType="VARCHAR" />
+    </resultMap>
+	
+	<sql id="BASE_SQL">
+		name, namespace, description
+	</sql>
+
+    <select id="selectAll" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_namespace 
+        where `system` = #{system}
+    </select>
+
+    <select id="selectByNamespace" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_namespace 
+        where `system` = #{system}
+        	and namespace = #{namespace}
+    </select>
+
+    <insert id="insert" parameterType="map">
+       insert into privilege_namespace (
+       		`system`, 
+       		name, 
+       		namespace, 
+       		description
+       ) values (
+       		#{system}, 
+       		#{name}, 
+       		#{namespace}, 
+       		#{description}
+       	)
+    </insert>
+    
+    <insert id="update" parameterType="map">
+       update privilege_namespace
+       		set name = #{name}
+       where `system` = #{system}
+       		and namespace = #{namespace}
+    </insert>
+    
+    <delete id="delete" parameterType="map">
+    	delete from privilege_namespace
+        where `system` = #{system}
+       		and namespace = #{namespace}
+    </delete>
+</mapper>

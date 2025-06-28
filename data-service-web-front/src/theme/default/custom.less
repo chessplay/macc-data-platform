@@ -1,0 +1,77 @@
+@import "./color.less";
+
+/**页面容器*/
+.dc-page-card{
+  min-height:800px; 
+  background: #fff;
+  padding:20px 20px;
+}
+
+/*滚动条*/
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ddd
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,.2);
+  border-radius: 3px
+}
+
+::-webkit-scrollbar-button {
+  background-color: #888;
+  display: none
+}
+
+/*表格组件样式重写*/
+.ant-table-thead >tr >th{
+  font-weight: bold;
+}
+
+/*表格内的操作按钮*/
+.dc-tb-btn-edit{
+  color:@primary-color;
+}
+.dc-tb-btn-warning{
+  color: @warning-color; 
+}
+.dc-tb-btn-dtl{
+  color:@primary-color;
+}
+.dc-tb-btn-del{
+  color:@text-color;
+}
+.dc-tb-btn-pass{
+  color:@success-color;
+}
+.dc-tb-btn-notpass{
+  color:@warning-color;
+}
+.dc-tb-btn-edit,.dc-tb-btn-warning,.dc-tb-btn-dtl,.dc-tb-btn-del,.dc-tb-btn-notpass,.dc-tb-btn-pass{
+  cursor: pointer;   
+  background-color: transparent;
+  border-color: transparent;
+  i{
+    margin-right:2px;
+  }
+  &:hover{
+      text-decoration: underline;
+  }
+  &:focus,&:active{
+      outline: 0 ;
+  }
+}
+.dc-tb-btn-split{
+  margin:0px;
+}
+
+.dc-tb-stripe{
+  .ant-table-tbody >tr:nth-child(even){
+    background-color: #f8f8f9;
+  }
+}

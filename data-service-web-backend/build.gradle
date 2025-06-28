@@ -1,0 +1,57 @@
+apply from: 'dependency.gradle'
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    }
+    ext {
+        proguardVersion = '4.11'
+        springbootVersion = '2.7.12'
+    }
+    dependencies {
+    	classpath  group: 'net.sf.proguard', name: 'proguard-gradle', version: proguardVersion
+        //classpath "gradle.plugin.net.idlestate:gradle-duplicate-classes-check:1.0.2"
+ 		classpath group:'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: springbootVersion
+    }
+}
+
+ext {
+    maccVersion = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
+}
+
+allprojects {
+	group='com.ruijie.product.macc2.dev'
+
+    apply plugin: 'java-library'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven-publish'
+	apply plugin: 'signing'
+    //apply plugin: "net.idlestate.gradle-duplicate-classes-check"
+
+    sourceCompatibility = 1.8
+
+	tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.compilerArgs << "-Xlint:unchecked"
+        options.compilerArgs << "-Xlint:deprecation"
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/repository/public'}
+        maven { url 'https://maven.aliyun.com/repository/central'}
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/'}
+	}
+	
+	dependencies {
+		compileOnly "org.projectlombok:lombok:1.18.4"
+		annotationProcessor "org.projectlombok:lombok:1.18.4"
+		
+		testCompileOnly "org.projectlombok:lombok:1.18.4"
+		testAnnotationProcessor "org.projectlombok:lombok:1.18.4"
+	}
+}
+
+def defaultProperty(propertyName, defaultValue) {
+    return hasProperty(propertyName) ? project[propertyName] : defaultValue
+}

@@ -1,0 +1,29 @@
+.shadow {
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+}
+.side-menu {
+  min-height: 100vh;
+  overflow-y: auto;
+  z-index: 10;
+}
+.side-menu .logo {
+  height: 64px;
+  position: relative;
+  line-height: 64px;
+  padding-left: 24px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+.side-menu .logo.light {
+  background-color: #fff;
+}
+.side-menu .logo h1 {
+  font-size: 20px;
+  margin: 0 0 0 12px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.menu {
+  padding: 16px 0;
+}

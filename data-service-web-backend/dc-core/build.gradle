@@ -1,0 +1,21 @@
+dependencies {
+	implementation libraries.'commons-lang'
+	implementation libraries.'commons-lang3'
+	implementation libraries.'fastjson'
+	implementation libraries.'spring-web'
+	implementation libraries.'spring-context'
+	implementation libraries.'jackson-databind'
+	implementation libraries.'javax.servlet-api'
+
+
+	implementation libraries.'spring-boot-autoconfigure'
+	implementation libraries.'spring-boot-starter-validation'
+	implementation libraries.'spring-context'
+
+
+	implementation libraries.'mybatis-plus-spring-boot-starter'
+	implementation libraries.'mybatis-plus-extension'
+	implementation libraries.'hutool-all'
+
+
+}

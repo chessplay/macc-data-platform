@@ -1,0 +1,57 @@
+server:
+  port: 6622
+  servlet:
+    contextPath: /maccdata/api
+  system: maccdata
+  host: localhost
+#logging.path: logs
+#logging.file.name: ${logging.path}/application.log
+spring:
+  datasource:
+    username: macc
+    password: ruijie@MACC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.29.45.31:3306/macc-data-platform?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 200000
+      connection-test-query: select 1
+  redis:
+    database: 0
+    host: 172.29.45.31
+    port: 6666
+    password: 123456.com
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1ms
+        max-idle: 10
+        min-idle: 0
+sa-token:
+  enabled: false
+  token-name: maccdata
+  timeout: 2592000
+  token-style: uuid
+  sso: 
+    auth-url: http://172.29.45.31:9700/datacenter/sso/auth
+    is-http: true
+    check-ticket-url: http://172.29.45.31:9700/datacenter/sso/checkTicket
+    is-slo: true
+    slo-url: http://172.29.45.31:9700/datacenter/sso/logout
+    secretkey: kQwIOrYvnXmSDkwEiFngrKidMcdrgKor
+    userinfo-url: http://172.29.45.31:9700/datacenter/sso/userinfo
+dolphin:
+  address: "http://spark-master001.dc:22345/dolphinscheduler"
+  token: "8ff9bad5fba0dd1e3d6b8493be481de4"
+  tenant-code: "macc"
+  project-code: 16394212176224
+  script-root-path: "/root/"
+job:
+  engine: "Flink"
+  parallelism: 2
+  mode: "BATCH"
+  checkpoint-interval: 10000
+  partition-num: 10

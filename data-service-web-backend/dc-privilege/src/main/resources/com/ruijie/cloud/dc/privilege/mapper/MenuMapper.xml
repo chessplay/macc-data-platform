@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.dc.privilege.mapper.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.ruijie.cloud.dc.privilege.entity.business.Menu" >
+    	<id column="id" property="id" jdbcType="INTEGER" />
+    	<result column="system" property="system" jdbcType="VARCHAR" />
+    	<result column="namespace" property="namespace" jdbcType="VARCHAR" />
+    	<result column="parent_path" property="parentPath" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="priority" property="priority" jdbcType="INTEGER" />
+		<result column="params" property="params" jdbcType="VARCHAR" />
+    </resultMap>
+	
+	<sql id="BASE_SQL">
+		id, namespace, parent_path, name, url, icon, priority, params
+	</sql>
+	
+    <select id="selectByNamespace" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_menu
+        where `system` = #{system}
+        	and namespace = #{namespace}
+        order by parent_path, priority
+    </select>
+
+    <select id="selectByIds" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_menu
+        where `system` = #{system}
+        and id in 
+	        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+	        	#{item}
+	        </foreach>
+        order by parent_path, priority
+    </select>
+    
+    <select id="selectByParentPath" parameterType="map" resultMap="BaseResultMap">
+     	select 
+        	<include refid="BASE_SQL" />
+        from privilege_menu
+        where `system` = #{system}
+        and parent_path = #{parentPath}
+    </select>
+
+    <select id="selectById" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_menu
+        where `system` = #{system}
+        and id = #{id}
+    </select>
+    
+    <insert id="insert" parameterType="map">
+       insert into privilege_menu(
+       		`system`,
+       		namespace,
+       		parent_path, 
+       		name, 
+       		url, 
+       		icon, 
+       		priority, 
+       		params
+       	) values (
+       		#{system},
+       		#{namespace},
+       		#{parentPath},
+       		#{name}, 
+       		#{url}, 
+       		#{icon}, 
+       		#{priority}, 
+       		#{params}
+       	)
+    </insert>
+    
+	<update id="update" parameterType="map">
+       update privilege_menu
+       set 
+       	  name = #{name},
+       	  url = #{url},
+       	  icon = #{icon},
+       	  priority = #{priority},
+       	  params = #{params}
+       where `system` = #{system}
+       and id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="map">
+    	delete from privilege_menu
+        where `system` = #{system}
+        and id = #{id}
+    </delete>
+</mapper>

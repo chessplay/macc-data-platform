@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.dc.privilege.mapper.AccountDetailMapper">
+    <resultMap id="BaseResultMap" type="com.ruijie.cloud.dc.privilege.entity.business.AccountDetail" >
+    	<result column="user_id" property="userId" jdbcType="INTEGER" />
+    	<result column="user_name" property="userName" jdbcType="VARCHAR" />
+    	<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    	<result column="state" property="state" jdbcType="VARCHAR" />
+    	<result column="description" property="description" jdbcType="VARCHAR" />
+    	<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<sql id="BASE_SQL">
+		user_id, user_name, role_id, state, create_time, description
+	</sql>
+	
+	<select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
+		 select 
+        	<include refid="BASE_SQL" />
+        from privilege_account
+        where `system` = #{system}
+        and user_id = #{userId}
+	</select>
+	
+    <select id="selectPage" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_account
+        where `system` = #{system}
+        	<if test="state != null">
+        		and state = #{state}
+        	</if>
+       	 	<if test="userName != null">
+       	 		and user_name like concat('%', #{userName}, '%')
+       	 	</if>
+       	 	<if test="roleId != null">
+       	 		and role_id = #{roleId}
+       	 	</if>
+       	 order by create_time desc
+       	 limit ${skipCount}, ${size}
+    </select>
+    
+    <select id="selectCount" parameterType="map" resultType="int">
+        select 
+        	count(*)
+        from privilege_account
+        where `system` = #{system}
+        	<if test="state != null">
+        		and state = #{state}
+        	</if>
+       	 	<if test="userName != null">
+       	 		and user_name like concat('%', #{userName}, '%')
+       	 	</if>
+       	 	<if test="roleId != null">
+       	 		and role_id = #{roleId}
+       	 	</if>
+    </select>
+    
+    <update id="update" parameterType="map">
+    	update privilege_account 
+    	<set>
+    		<if test="userName != null">
+    			user_name = #{userName},
+    		</if>
+    		<if test="roleId != null">
+    			role_id = #{roleId},
+    		</if>
+    		<if test="state">
+    			state = #{state},
+    		</if>
+    		<if test="description != null">
+    			description = #{description},
+    		</if>
+    	</set>
+    	where `system` = #{system}
+        	and user_id = #{userId}
+    </update>
+    
+    <insert id="insert" parameterType="map">
+       insert into privilege_account 
+       (
+       		`system`, 
+       		user_id, 
+       		user_name, 
+       		role_id,
+       		state,
+       		description
+       	) values (
+       		#{system}, 
+       		#{userId}, 
+       		#{userName}, 
+       		#{roleId},
+       		#{state},
+       		#{description}
+       	)
+    </insert>
+    
+    <delete id="delete" parameterType="map">
+    	delete from privilege_account
+        where `system` = #{system}
+        	and user_id = #{userId}
+    </delete>
+    
+    
+</mapper>

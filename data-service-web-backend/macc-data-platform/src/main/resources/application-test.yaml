@@ -1,0 +1,117 @@
+# 服务器端口、上下文路径等基本配置
+server:
+  port: 6622
+  servlet:
+    contextPath: /maccdata/api
+  system: maccdata # 自定义系统名
+  host: localhost  # 这个 host 通常用于开发或本地测试，生产环境应配置实际地址或移除
+
+# Spring Boot 相关配置
+spring:
+  # --- 动态数据源配置 (dynamic-datasource-spring-boot-starter) ---
+  datasource:
+    dynamic:
+      primary: primary # 指定主数据源的名称（必须与下面 datasource 中的一个 key 对应）
+      datasource:
+        # --- 主数据源 (名称: primary) ---
+        # 连接你 macc-data-platform 应用自身的业务数据库
+        primary:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://172.29.45.31:3306/macc-data-platform?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull # 确认这是你的主库地址
+          username: macc
+          password: ruijie@MACC
+          # 主数据源的 HikariCP 连接池配置
+          hikari:
+            pool-name: PrimaryPool # 连接池名称
+            maximum-pool-size: 50
+            minimum-idle: 5
+            idle-timeout: 300000
+            connection-timeout: 200000
+            connection-test-query: select 1
+
+        # --- 第二个数据源 (名称: ds) ---
+        # 连接 DolphinScheduler 的数据库
+        ds:
+          driver-class-name: com.mysql.cj.jdbc.Driver # 确认 DS 数据库的驱动
+          url: jdbc:mysql://192.168.105.100:3306/dolphinscheduler?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+          username: root
+          password: mAC@c##2022@%sUlMh
+          # DS 数据源的 HikariCP 连接池配置
+          hikari:
+            pool-name: DolphinSchedulerPool # 连接池名称
+            maximum-pool-size: 5 # 通常查询 DS 库不需要很多连接
+            connection-timeout: 30000
+            # 可以根据需要添加 minimum-idle, idle-timeout 等
+
+      # 可选: 全局 HikariCP 默认配置 (如果上面数据源内部没有指定，会使用这里的)
+      # hikari:
+      #   connection-timeout: 30000
+      #   maximum-pool-size: 10
+
+      # 可选: 配置 P6Spy 打印 SQL 和执行时间，方便调试数据源切换
+      # p6spy: true
+      # Seata 分布式事务配置 (如果不用保持 false)
+      # seata: false
+
+  # --- Redis 配置 ---
+  redis:
+    database: 0
+    host: 172.29.45.31
+    port: 6666
+    password: 123456.com
+    timeout: 3000ms # 连接超时
+    lettuce: # 使用 Lettuce 连接池
+      pool:
+        max-active: 20 # 最大连接数
+        max-wait: -1ms # 连接池等待时间，-1 表示无限等待
+        max-idle: 10   # 最大空闲连接数
+        min-idle: 0    # 最小空闲连接数
+
+# Sa-Token 配置 (保持不变)
+sa-token:
+  enabled: false
+  token-name: maccdata
+  timeout: 2592000
+  token-style: uuid
+  sso:
+    auth-url: http://172.29.45.31:9700/datacenter/sso/auth
+    is-http: true
+    check-ticket-url: http://172.29.45.31:9700/datacenter/sso/checkTicket
+    is-slo: true
+    slo-url: http://172.29.45.31:9700/datacenter/sso/logout
+    secretkey: kQwIOrYvnXmSDkwEiFngrKidMcdrgKor
+    userinfo-url: http://172.29.45.31:9700/datacenter/sso/userinfo
+
+# DolphinScheduler API 客户端配置 (保持不变)
+dolphin:
+  address: "http://192.168.105.52:12345/dolphinscheduler"
+  token: "ed86bfa7d08205b789ed26af14ca30d1" # 注意这里的 token 是 API 访问 token，不是数据库密码
+  tenant-code: "hadoop"
+  project-code: 14049963983232
+  script-root-path: "/root/"
+
+# Job 相关配置 (保持不变)
+job:
+  engine: "Flink"
+  parallelism: 2
+  mode: "BATCH"
+  checkpoint-interval: 10000
+  partition-num: 10 # 这个 partition-num 似乎与之前的 sharding-count 对应？
+
+# --- 平台特定的任务配置 (根据 TaskSubmissionService 新增) ---
+platform:
+  task:
+    max-concurrency: 30      # 系统最大并发任务数 (已有)
+    max-retries: 3           # 每个分片任务的最大重试次数 (已有)
+    retry-delay-ms: 30000    # 失败后重试的延迟时间（毫秒）(已有)
+    # --- 新增配置 ---
+    submission-batch-size: 3 # 每次从队列取多少任务尝试提交 (可配置, N)
+    submission-interval-ms: 20000 # 检查队列并尝试提交的间隔时间 (可配置, M 秒 * 1000)
+
+# --- 日志配置 (保持你原有的 logging 设置) ---
+# logging:
+#   level:
+#     com.ruijie.cloud.macc.dataplatform: DEBUG # 例如，设置为 DEBUG 以便查看详细日志
+#   path: logs
+#   file:
+#     name: ${logging.path}/application.log # 沿用之前的配置方式

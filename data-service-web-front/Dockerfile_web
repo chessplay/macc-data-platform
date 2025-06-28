@@ -1,0 +1,23 @@
+#百川数据平台
+#docker build --no-cache -t="macc:5000/maccdata-web"  -f ./Dockerfile_web .
+#docker run -p 8081:8081  --name maccdata-web --net=maccdata --restart=always  -v /macc/docker/data/maccdata/ngx_log:/var/log/nginx -d macc:5000/maccdata-web
+FROM nginx
+MAINTAINER zhongchaojie "zhongchaojie@ruijie.com.cn"
+
+ARG EXEC_DIR=/usr/local/maccdata
+
+RUN mkdir -p ${EXEC_DIR} && \
+	mkdir -p /etc/nginx/conf.d && \
+#配置东八区时区
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo 'Asia/Shanghai' >/etc/timezone && \
+# 删除默认的nginx配置
+	rm -rf /etc/nginx/conf.d/default.conf
+	
+#拷贝安装包到镜像
+COPY ./dist ${EXEC_DIR}/www
+COPY ./publish/etc/maccdata-web.conf /etc/nginx/conf.d
+
+#挂载点
+#VOLUME ["/etc/nginx/conf.d","${EXEC_DIR}/www"]
+

@@ -1,0 +1,44 @@
+env {
+parallelism = $parallelism
+job.mode = "$mode"
+checkpoint.interval = $interval
+flink.yarn.application.queue = "$queue"
+flink.yarn.application.name = ${subtask_name}
+job.name= ${subtask_name}
+}
+
+source {
+Jdbc {
+driver = org.apache.phoenix.queryserver.client.Driver
+url = "$phoenixUrl"
+partition_column = "$partition_column"  # 使用占位符
+partition_num = $partition_num  # 分片数
+query = "$query"
+result_table_name = "$sourceTableName"
+}
+}
+
+transform {
+FieldMapper {
+source_table_name = "$sourceTableName"
+result_table_name = "$resultTableName"
+field_mapper = {
+#foreach($entry in $fieldMapper.entrySet())
+    $entry.key = $entry.value
+#end
+}
+}
+}
+
+sink {
+Maxcompute {
+accessId = "$accessId"
+accesskey = "$accessKey"
+endpoint = "$endpoint"
+project = "$project"
+source_table_name = "$resultTableName"
+table_name = "$tableName"
+${partition_spec}
+overwrite=${overwrite}
+}
+}

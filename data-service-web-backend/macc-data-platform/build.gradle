@@ -1,0 +1,41 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.ruijie.cloud.dataplatform'
+sourceCompatibility = 1.8
+
+
+
+dependencies {
+	api project(':dc-privilege')
+	implementation libraries.'spring-boot-starter-web'
+	implementation libraries.'spring-boot-starter-data-redis'
+	implementation libraries.'spring-boot-starter-validation'
+	
+	implementation libraries.'commons-io'
+	implementation libraries.'elasticsearch-java'
+	implementation libraries.'fastjson'
+	implementation libraries.'guava'
+	implementation libraries.'retrofit'
+	implementation libraries.'converter-jackson'
+	implementation libraries.'vjkit'
+	implementation libraries.'commons-pool2'
+	implementation libraries.'commons-lang3'
+	
+	implementation libraries.'mysql-connector-java'
+	implementation libraries.'mybatis-plus'
+	implementation libraries.'mybatis-plus-spring-boot-starter'
+	implementation libraries.'hutool-all'
+	implementation libraries.'velocity-engine'
+
+    implementation libraries.'phoenix-queryserver-client'
+	implementation libraries.'clickhouse-jdbc'
+	implementation libraries.'odps-sdk-core'
+
+	implementation("com.baomidou:dynamic-datasource-spring-boot-starter:4.3.0")
+	
+	implementation("jakarta.json:jakarta.json-api:2.0.1")
+
+}

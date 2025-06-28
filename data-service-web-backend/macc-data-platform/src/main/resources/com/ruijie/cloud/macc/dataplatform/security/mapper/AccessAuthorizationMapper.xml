@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.macc.dataplatform.security.mapper.AccessAuthorizationMapper">
+    <resultMap id="BaseResultMap" type="com.ruijie.cloud.macc.dataplatform.security.entity.AccessAuthorization" >
+        <result column="access_key" property="accessKey" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="business_module" property="businessModule" jdbcType="VARCHAR" />
+        <result column="business_user" property="businessUser" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+	
+    <sql id="BASE_COLUMNS">
+        access_key, state, business_module, business_user, expire_time, description
+    </sql>
+
+    <select id="selectByAccessKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        	<include refid="BASE_COLUMNS"/>
+        from mdp_access_authorization
+        where access_key = #{accessKey}
+    </select>
+</mapper>

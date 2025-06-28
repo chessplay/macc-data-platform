@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<property resource="application.yaml" />
+	<springProperty scope="context" name="LOG_HOME" source="logging.path"/>
+	<!-- TRACE < DEBUG < INFO < WARN < ERROR < OFF -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %-40([%thread] %F:%L) %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="common-all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/common-all.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>logs/common-all-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+			<maxHistory>3</maxHistory>
+			<totalSizeCap>30MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %-40([%thread] %F:%L) %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- 开始日志级别配置 BEGIN -->
+<!--	<logger name="com.ruijie.cloud.macc.dataplatform.task.service" level="DEBUG" additivity="false">-->
+<!--		<appender-ref ref="stdout" />     <appender-ref ref="common-all" /> </logger>-->
+
+	<root level="info">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="common-all" />
+	</root>
+</configuration>

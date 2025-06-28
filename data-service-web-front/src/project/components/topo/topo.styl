@@ -1,0 +1,249 @@
+
+@import './baseParams.styl'
+.hide
+  display none !important
+$types = primary #018903, info $blue, warning #F17A00, danger #DE321F, unkown #018903
+.out-item-info
+  padding 5px
+  display flex
+  justify-content center
+  align-items center
+  height 100%
+  width 100%
+  .img-OUT
+    height 100%
+    width 100%
+  i.icon
+    font-size 130px
+    color #018903
+.dev-item
+  position relative
+  overflow inherit
+  .dev-item-info
+    height 100%
+    width 100%
+    text-align center
+    border 2px solid $green
+    border-radius 4px
+    font-size 12px
+    background-color $white
+    .dev-img
+      margin-top 15px
+      height 40px
+      img
+        height 100%
+        width auto
+    .dev-name
+      color $graybf
+  .dev-link-type
+    color $green
+  for item in $types
+    &.dev-item-{item[0]} .dev-item-info
+      background-color lighten(item[1], 90%)
+      border-color: item[1]
+      .dev-link-type
+        color: item[1]
+  .dev-item-info.dev-AP
+    .dev-img
+      margin-top 10px
+      height 50px
+  .dev-item-info.dev-EHR
+    .dev-img
+      margin-top 5px
+      height 50px
+.d3-tree
+  .node
+    line-height 1
+    &.active .dev-item-info
+      border 3px solid $blue !important
+    .div-item-checked
+      height 100%
+      width 100%
+      overflow hidden
+      color $graybf
+      border-radius 4px
+      .icon-yixuanzhong
+        font-size 48px
+    &.active .div-item-checked
+      display block
+      .icon-yixuanzhong
+        color $blue !important
+  .dev-link-port.dev-link-port-large
+    display block
+  .dev-link-port.dev-link-port-small
+    display none
+  .node.node-large
+    .out-item-info i.icon-hulianwang
+      display none
+  .node.node-small
+    for item in $types
+      .dev-item-{item[0]} .dev-item-info
+        background: item[1]
+    .dev-item-ports
+      display none
+    .dev-item-info
+      display flex
+      justify-content center
+      align-items center
+      .dev-img,.dev-name, .dev-link-type
+        display none
+      .dev-porductClass
+        color #ffffff
+        font-size 25px !important
+    .dev-item-default .dev-porductClass
+      color $black59 !important
+    .out-item-info
+      padding 0
+      .img-OUT
+        display none
+    .switch-children
+      display none
+  path.link
+    fill none
+    stroke $green
+    stroke-width 2px
+    for item in $types
+      &.link-{item[0]}
+        stroke: item[1]
+  path.link-wireless
+    stroke-dasharray 10, 2, 2 !important
+  .link-port
+    display flex
+    justify-content center
+    height 22px
+    line-height 18px
+    .mport, .pport
+      font-size 10px
+      padding 0 8px
+      display inline-block
+      border 2px solid $green
+      border-radius 11px
+      background $white
+    for item in $types
+      &.link-port-{item[0]}
+        .mport, .pport
+          border 2px solid item[1]
+  .link-animate
+    fill none
+    for item in $types
+      &.link-animate-{item[0]}
+        fill: item[1]
+  .dev-ports-EG
+    .port-name
+      visibility hidden
+.switch-box
+  display flex
+  height 100%
+  box-sizing border-box
+  .switch
+    color: #fff
+    height 100%
+    padding 0 8px
+    margin auto
+    background #2b6afd
+    border 2px solid #2b6afd
+    border-radius 10px
+    font-size 12px
+    display flex
+    justify-content center
+    align-items center
+    for item in $types
+      &.switch-{item[0]}
+        border-color: item[1]
+.div-ports-container
+  width 100%
+  height 100%
+.dev-ports
+  height 100%
+  display flex
+  justify-content center
+  align-items center
+  flex-direction column
+  margin auto
+  .dev-ports-line
+    display flex
+    justify-content center
+    align-items center
+    .port
+      width 26px
+      height 36px
+      font-size 10px
+      text-align center
+      .icon
+        font-size 26px
+        color $graybf
+      .port-name
+        font-size 8px
+        height 10px
+        line-height 10px
+        color $black59
+        display block
+      &.port-black
+        .icon
+          color $black59
+      for item in $types
+        &.port-{item[0]}
+          .icon
+            color: item[1]
+.topo-action-btn-container
+  position absolute
+  z-index 1999
+  top 148Px
+  right 15Px
+  .topo-action-btn-group
+    margin-bottom 5Px
+    .topo-action-btn
+      margin-top -1Px
+      border-radius 0
+    .topo-action-btn:first-child
+      border-radius 4Px 4Px 0 0
+    .topo-action-btn:last-child
+      border-radius 0 0 4Px 4Px
+  .topo-action-btn
+    padding 5Px
+    width 40Px
+    display flex
+    justify-content center
+    align-items center
+    border 1Px solid $graye8
+    background $white
+    border-radius 4Px
+    color $black59
+    font-size 8Px
+    display flex
+    flex-direction column
+    text-align center
+    i
+      font-size 24Px
+      line-height 22Px
+    &.active
+      background $blue
+      color $white
+      border-color $blue
+.dhcp-server-box
+  overflow inherit
+.dhcp-server
+  width 100%
+  height 100%
+  border 1px solid $blue
+  background $white
+  font-size 12px
+  border-radius 4px
+
+.flex-row
+    display flex
+    flex-direction row
+    justify-content center
+    align-items center
+.flex-column
+    display flex
+    flex-direction column
+    justify-content center
+    align-items center
+.flex-wrap
+    display flex
+    flex-direction row
+    flex-wrap wrap
+    align-items center
+.flex-grow-1
+    flex-grow 1

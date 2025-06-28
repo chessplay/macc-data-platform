@@ -1,0 +1,136 @@
+.eventbox {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 100%;
+}
+
+.filterbox {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 19%;
+  margin: 0 0 1% 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.timefilter {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.inputtime {
+  float: right;
+  height: 32px;
+  border: 1px solid rgb(218, 218, 218);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  //margin-top: 4px;
+  padding: 0 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.timestep {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/deep/.timestepchange {
+  & .ant-steps-item-error>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+    color: #2b6afd;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  & .ant-steps-item-error .ant-steps-item-icon>.ant-steps-icon .ant-steps-icon-dot {
+    background-color: #2b6afd;
+    border: 2px solid #2b6afd;
+    padding: 5px;
+  }
+
+  & .ant-steps-item-process .ant-steps-item-icon>.ant-steps-icon .ant-steps-icon-dot {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #2b6afd;
+    padding: 5px;
+  }
+}
+
+.listbox {
+  background-color: rgb(255, 255, 255);
+  width: 50%;
+  height: 60vh;
+  margin: 2vh 1% 2vh 0;
+  border: 1px solid #f0f0f0;
+}
+
+.eventlist {
+  overflow-y: scroll;
+  height: 60vh;
+  padding: 8px;
+}
+
+.item,
+.changeitem {
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.changeitem {
+  background-color: #f0f0f0;
+  border: none;
+  color: #2b6afd;
+}
+
+.databox {
+  width: 49%;
+  height: 60vh;
+  margin: 2vh 0;
+  padding: 8px;
+  border: 1px solid #f0f0f0;
+}
+
+.showJsonBox {
+  padding: 8px;
+  display: flex;
+  justify-content: flex-start;
+  height: 25vh;
+  width: 25vw;
+  border: 1px solid #f0f0f0;
+  margin: 5px;
+}
+
+/deep/.databox {
+  & .ant-descriptions-item-label,
+  & .ant-descriptions-item-content {
+    padding: 1px;
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid #f0f0f0;
+    border-right: none;
+    height: 5vh;
+    font-size: 14px;
+  }
+
+  & .ant-descriptions-row:last-child>td,
+  & .ant-descriptions-row:last-child>th {
+    border: none !important;
+  }
+
+  & .ant-descriptions-item-label {
+    width: 100px;
+  }
+
+  & .ant-descriptions-bordered,
+  & .ant-descriptions-view {
+    border: none;
+  }
+}
+
+.nullData {
+  margin: 8px;
+}

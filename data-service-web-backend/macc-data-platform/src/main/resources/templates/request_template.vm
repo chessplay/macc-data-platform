@@ -1,0 +1,6 @@
+#set($url = "http://$host:$port$contextPath/task/instance/start?id=$id&access_key=your_ak")
+curl -XPOST '$url' \
+--header 'Content-Type: application/json' \
+--data '{
+  "taskParams":$taskParams
+}'

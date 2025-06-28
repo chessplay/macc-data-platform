@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruijie.cloud.dc.privilege.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.ruijie.cloud.dc.privilege.entity.business.Role" >
+    	<id column="role_id" property="roleId" jdbcType="VARCHAR" />
+    	<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    	<result column="description" property="description" jdbcType="VARCHAR" />
+    </resultMap>
+    
+	<sql id="BASE_SQL">
+		role_id, role_name, description
+	</sql>
+
+    <select id="selectAll" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_role 
+        where `system` = #{system}
+    </select>
+
+    <select id="selectByRoleId" parameterType="map" resultMap="BaseResultMap">
+        select 
+        	<include refid="BASE_SQL" />
+        from privilege_role 
+        where `system` = #{system}
+        and role_id = #{roleId}
+    </select>
+
+    <insert id="insert" parameterType="map">
+       insert into privilege_role(`system`, role_id, role_name, description) 
+       values (#{system}, #{roleId}, #{roleName}, #{description})
+    </insert>
+    
+    <insert id="update" parameterType="map">
+       update privilege_role
+       set role_name = #{roleName},
+       	   description = #{description}
+       where `system` = #{system}
+       and role_id = #{roleId}
+    </insert>
+    
+    <delete id="delete" parameterType="map">
+    	delete from privilege_role
+        where `system` = #{system}
+        and role_id = #{roleId}
+    </delete>
+</mapper>

@@ -1,0 +1,15 @@
+dependencies {
+	api project(':dc-core')
+	
+	implementation libraries.'commons-lang'
+	implementation libraries.'commons-lang3'
+	implementation libraries.'mybatis-spring-boot-starter'
+	implementation libraries.'reflections'
+	implementation libraries.'spring-webmvc'
+	
+	implementation libraries.'sa-token-spring-boot-starter'
+	implementation libraries.'sa-token-dao-redis-jackson'
+	implementation libraries.'commons-pool2'
+	implementation libraries.'okhttps'
+	implementation libraries.'fastjson'
+}
